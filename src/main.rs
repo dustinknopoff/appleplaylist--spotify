@@ -4,7 +4,6 @@ use rspotify::spotify::util::get_token;
 use rspotify::spotify::oauth2::{SpotifyClientCredentials, SpotifyOAuth};
 use rspotify::spotify::senum::Country;
 use clap::{Arg, App};
-use std::env;
 
 #[derive(Debug, Clone)]
 struct Song {
@@ -33,25 +32,28 @@ impl Song {
 
 // Create a .env file in this dir with Spotify Client ID, Client Secret, and "http://localhost:8888/callback" as REDIRECT_URI
 fn main() {
-    let pkg = env::var("CARGO_PKG_VERSION").unwrap();
     let matches = App::new("Apple Music to Spotify Migrator")
-        .version(pkg.as_ref())
+        .version("0.1.0")
         .author("Dustin Knopoff <dustinknopoff@gmail.com>")
         .about("Converts an exported iTunes/Apple Music Playlist xml file to an existing spotify playlist")
         .arg(Arg::with_name("file")
             .short("f")
             .long("file")
             .takes_value(true)
+            .required(true)
             .help("Itunes/Apple Music Playlist xml file"))
+
         .arg(Arg::with_name("playlist_id")
             .short("i")
             .long("id")
             .takes_value(true)
+            .required(true)
             .help("Existing playlist id in spotify"))
         .arg(Arg::with_name("username")
             .short("u")
             .long("user")
             .takes_value(true)
+            .required(true)
             .help("Your spotify username"))
         .get_matches();
 
